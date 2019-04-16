@@ -3,4 +3,4 @@
 
 Using _0_01sdp to represent 0.01 sdp
 
-![Image of Test1](https://github.com/Yambottle/AndroidHandsOnNotes/blob/master/ScreenAdapted/floatingSDP/image.png)
+![Image of Test1](https://github.com/Yambottle/AndroidDarkMagic/blob/master/ScreenAdaptation/FloatingSDP_SSP/image.png)
