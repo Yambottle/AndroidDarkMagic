@@ -1,0 +1,150 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        incremental false
+    }
+    defaultConfig {
+        applicationId "org.scanblox"
+        minSdkVersion 26
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+}
+
+ext {
+    room_version = "2.1.0-alpha04"
+}
+
+dependencies {
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    implementation('com.microblink:blinkid:4.7.0@aar') {
+        transitive = true
+    }
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.mikepenz:materialdrawer:6.1.2'
+    implementation "androidx.room:room-runtime:${room_version}"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation "androidx.room:room-rxjava2:${room_version}"
+    implementation 'com.pusher:pusher-java-client:1.5.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    implementation "android.arch.paging:runtime:1.0.1"
+
+    implementation "android.arch.work:work-runtime:1.0.0"
+    implementation "com.intellij:annotations:+@jar"
+    annotationProcessor "androidx.room:room-compiler:${room_version}"
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.annotation:annotation:1.0.2'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.applandeo:material-calendar-view:1.5.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation project(path: ':Users')
+    implementation project(path: ':Events')
+    implementation project(path: ':Promotions')
+    implementation project(path: ':Reservations')
+    implementation project(path: ':Guests')
+    implementation project(path: ':Workhours')
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+    implementation 'com.githang:status-bar-compat:0.7'
+}
+repositories {
+    mavenCentral()
+    maven { url "https://kotlin.bintray.com/kotlinx/" }
+    maven { url 'https://maven.microblink.com' }
+}
+
+class SDPFactory extends DefaultTask {
+
+   @Input
+   String unit = "dp"
+   @Input
+   double positiveMax = 50
+   @Input
+   double negativeMax = 60
+
+   @TaskAction
+   def create() {
+       String resFolder =  project.getProjectDir().getPath() + "/src/main/res/"
+       for(double dimen = 300; dimen <= 800 ; dimen = dimen + 30){
+           String folder = resFolder + "values-sw" + (int)dimen + "dp"
+           String fileName = folder + "/positive_sdps.xml"
+           new File(folder).mkdir()
+           new File(fileName).createNewFile()
+           PrintWriter printWriter = new PrintWriter(fileName)
+           printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+           printWriter.println("<resources>")
+           for(double i=0.01; i<=positiveMax; i=i+0.01){
+               double ratio = i/300d
+               double sdp = ratio*dimen
+               //using _0_01sdp
+               String temp = String.format("%.2f",i)
+               temp = temp.replace(".", "_")
+               printWriter.printf("\t<dimen name=\"_%ssdp\">%.2f" + unit + "</dimen>\r\n",temp,sdp)
+           }
+           printWriter.println("</resources>")
+           printWriter.close()
+       }
+       for(double dimen = 300; dimen <= 800; dimen = dimen + 30){
+           String folder = resFolder + "values-sw" + (int)dimen + "dp"
+           String fileName = folder + "/negative_sdps.xml"
+           new File(folder).mkdir()
+           new File(fileName).createNewFile()
+           PrintWriter printWriter = new PrintWriter(fileName)
+           printWriter.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+           printWriter.println("<resources>")
+           for(int i=1;i<=negativeMax;i++){
+               double ratio = i/300d
+               double sdp = ratio*dimen
+               printWriter.printf("\t<dimen name=\"_minus%dsdp\">%.2f" + unit + "</dimen>\r\n",i,-sdp)
+           }
+           printWriter.println("</resources>")
+           printWriter.close()
+       }
+   }
+}
+
+task createSDP(type: SDPFactory) {
+}
+
+//uncomment next line to edit values
+//preBuild.dependsOn createSDP
+
+createSDP{
+   unit = "dp"//change to "sp" if needed
+   positiveMax = 50//change to 600 or any other value if needed
+   negativeMax = 60//change to 600 or any other value if needed
+}
+
