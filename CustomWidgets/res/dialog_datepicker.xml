@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_320sdp"
+    android:layout_height="wrap_content"
+    android:background="@color/toolbar_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_21sdp"
+        android:layout_marginTop="@dimen/_21sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Select Date"
+        android:textColor="@color/d8_gray"
+        android:textSize="@dimen/_18ssp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/_9sdp"
+        android:background="@color/separator_2b4d"/>
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_49sdp"
+        android:background="@color/m_turquoise"
+        android:gravity="center_vertical">
+        <Button
+            android:id="@+id/datedialog_ok_btn"
+            android:layout_width="@dimen/_83sdp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:text="OK"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/robotomedium"/>
+        <Button
+            android:id="@+id/datedialog_cancel_btn"
+            android:layout_width="@dimen/_83sdp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/datedialog_ok_btn"
+            android:background="@null"
+            android:text="CANCEL"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/robotomedium"/>
+    </RelativeLayout>
+</LinearLayout>
