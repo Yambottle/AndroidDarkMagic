@@ -1,4 +1,4 @@
-# Dragging and Clicking
+# 1. Dragging and Clicking
 ```
 //Compare XY between MotionEvent DOWN and UP
 slideMenuLayout.setOnTouchListener((v, event) -> {
