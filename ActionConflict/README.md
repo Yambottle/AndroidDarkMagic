@@ -7,10 +7,11 @@ slideMenuLayout.setOnTouchListener((v, event) -> {
                 touchY = event.getY();
             }
             if(event.getAction()==MotionEvent.ACTION_UP){
-                if(touchX==event.getX()&&touchY==event.getY()&&event.getX() > getResources().getDimensionPixelSize(R.dimen._269sdp)){
+                if(touchX==event.getX()&&touchY==event.getY()&&event.getX() >
+                getResources().getDimensionPixelSize(R.dimen._269sdp)){
                     slideMenuLayout.closeLeftSlide();
                 }
             }
             return false;
-        });
+});
 ```
