@@ -1,4 +1,4 @@
-# 1. Dragging and Clicking
+# 1. OnTouchEvent: Dragging and clicking
 ```
 //Compare XY between MotionEvent DOWN and UP
 slideMenuLayout.setOnTouchListener((v, event) -> {
@@ -14,4 +14,21 @@ slideMenuLayout.setOnTouchListener((v, event) -> {
             }
             return false;
 });
+```
+# 2. ScrollView+RecyclerView: RecyclerView not fully displayed
+Especially, item contains any clickable widget
+```
+<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/menu_list"
+                android:layout_marginTop="@dimen/_39sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar_bg"
+                android:nestedScrollingEnabled="false">
+            </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>
 ```
