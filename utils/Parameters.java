@@ -2,8 +2,16 @@ package org.scanblox.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.core.content.ContextCompat;
 
@@ -34,7 +42,7 @@ public class Parameters implements Serializable {
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
-    
+
     public static int getStatusbarHeight(Window window) {
         Rect rectangle = new Rect();
         window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
@@ -46,5 +54,17 @@ public class Parameters implements Serializable {
                 Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
+    }
+
+    public static void setLayout(Activity activity, int toolbarFrom, int toolbarTo, int contentFrom, int contentTo){
+        RelativeLayout dynamicToolbar = activity.findViewById(toolbarTo);
+        View dynamicToolbarView = activity.getLayoutInflater()
+                .inflate(toolbarFrom, dynamicToolbar, false);
+        dynamicToolbar.addView(dynamicToolbarView);
+
+        LinearLayout dynamicContent = activity.findViewById(contentTo);
+        View dynamicContentView = activity.getLayoutInflater()
+                .inflate(contentFrom, dynamicContent, false);
+        dynamicContent.addView(dynamicContentView);
     }
 }
